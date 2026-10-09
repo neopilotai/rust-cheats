@@ -31,8 +31,18 @@ enum Commands {
     Complete { prefix: String, #[arg(long)] language: Option<String> },
     Ask { query: String },
     Completions { shell: ShellArg },
+    Data {
+        #[command(subcommand)]
+        command: DataCommands,
+    },
     Lsp,
     Tui,
+}
+
+#[derive(Debug, Subcommand)]
+enum DataCommands {
+    Validate,
+    RebuildIndex,
 }
 
 #[derive(Debug, Clone, ValueEnum)]
@@ -103,6 +113,12 @@ fn main() -> Result<()> {
                     for result in results {
                         println!("{}\t[{}] {}", result.id, result.language, result.title);
                     }
+                }
+                Commands::Data { command: DataCommands::Validate } => {
+                    println!("Validated {} cheat sheets.", sheets.len());
+                }
+                Commands::Data { command: DataCommands::RebuildIndex } => {
+                    println!("Loaded {} cheat sheets; search uses the deterministic in-memory index.", sheets.len());
                 }
                 Commands::Completions { .. } | Commands::Lsp | Commands::Tui => unreachable!(),
             }

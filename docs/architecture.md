@@ -1,43 +1,38 @@
 # Architecture
 
-## Principles
+`rust-cheats` is an offline-first workspace. `cheats-core` owns stable serialized models; all frontends consume those models through focused crates.
 
-- **Offline first:** bundled TOML sheets and a local directory are the source of truth; no backend is required.
-- **One core API:** CLI, TUI, LSP, Vim, Neovim, VS Code, and future WASM consumers should reuse the same data/search/completion crates.
-- **Graceful degradation:** absent grammars or editor services must not prevent search.
-- **Privacy by default:** no telemetry and no persistent query history.
-- **Small dependency surface:** frontends depend on the core abstractions, not each other.
+## Dependency direction
 
-## Request flow
-
-```text
-CLI / TUI / LSP / editor adapters
-                |
-       cheats-core API types
-                |
-  +-------------+--------------+
-  |             |              |
-cheats-data  cheats-search  cheats-complete
-  |             |              |
-local TOML   ranking/index   prefix suggestions
-                |
-       cheats-language / highlight
-                |
-       grammar + editor context
+```mermaid
+graph TD
+  core[cheats-core]
+  data[cheats-data] --> core
+  search[cheats-search] --> core
+  complete[cheats-complete] --> core
+  language[cheats-language]
+  intent[cheats-intent]
+  lsp[cheats-lsp] --> data
+  lsp --> search
+  lsp --> core
+  cli[apps/cli] --> data
+  cli --> search
+  cli --> complete
+  cli --> intent
+  cli --> language
+  cli --> lsp
 ```
 
-## Search ranking
+The data boundary is TOML. Sheets are validated before entering search or completion. Search is deliberately backend-agnostic today: a deterministic in-memory implementation avoids an index dependency and leaves room for a persisted backend later.
 
-The initial implementation combines case-insensitive substring matching and fuzzy matching. Exact title and ID matches rank above title substring matches, which rank above description/tag matches and fuzzy matches. This is intentionally simple and deterministic; later versions can add a persistent inverted index and BM25 scoring.
+## Stable contracts
 
-## Language support
+`CheatSheet`, `CodeExample`, `SearchRequest`, `SearchResult`, `Suggestion`, and `CheatError` are the current public core API. Frontends should not depend on loader internals. Invalid input returns typed errors at library boundaries and contextual errors at the CLI boundary.
 
-Initial content includes Rust, TypeScript, JavaScript, Python, Go, Bash, C, and C++. Language IDs are normalized strings. Tree-sitter integration is isolated in `cheats-highlight`; language grammar crates should be added only when licensing, versions, and target support have been reviewed.
+## Extension seams
 
-## LSP boundary
+Future grammar providers, ranking strategies, content packs, WASM bindings, and editor adapters should consume the core model rather than add frontend-specific behavior to it. Dynamic extension code is intentionally not loaded or executed.
 
-The generic LSP adapter is a separate crate. It should provide completion and hover from the same local data API and should not attempt to replace compiler-aware language servers. A client can run `rust-analyzer`, Pyright, gopls, clangd, or another language server alongside this cheat-sheet server.
+## Known gaps
 
-## Security and privacy
-
-Data files are treated as content, not executable instructions. The CLI does not execute code snippets. Private mode suppresses output and avoids persistent history. Shell-history modification and stealth against security tooling are explicitly out of scope.
+Interactive TUI behavior, registered Tree-sitter grammars, context-aware LSP document handling, WASM bindings, and packaged VS Code behavior remain follow-up work. These gaps are recorded in `docs/feature-matrix.md` rather than represented as completed functionality.
