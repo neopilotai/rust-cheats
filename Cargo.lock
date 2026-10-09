@@ -127,6 +127,7 @@ name = "cheats-complete"
 version = "0.1.0"
 dependencies = [
  "cheats-core",
+ "fuzzy-matcher",
 ]
 
 [[package]]
@@ -778,6 +779,7 @@ dependencies = [
  "cheats-search",
  "clap",
  "clap_complete",
+ "tokio",
 ]
 
 [[package]]

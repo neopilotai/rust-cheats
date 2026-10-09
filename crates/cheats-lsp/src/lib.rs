@@ -9,7 +9,6 @@ struct Backend {
     sheets: Arc<Vec<CheatSheet>>,
 }
 
-#[tower_lsp_server::async_trait]
 impl LanguageServer for Backend {
     async fn initialize(&self, _: InitializeParams) -> Result<InitializeResult> {
         Ok(InitializeResult {
@@ -46,7 +45,8 @@ impl LanguageServer for Backend {
 
     async fn hover(&self, params: HoverParams) -> Result<Option<Hover>> {
         let uri = params.text_document_position_params.text_document.uri;
-        let word = uri.path().rsplit('/').next().unwrap_or_default();
+        let path = uri.path().to_string();
+        let word = path.rsplit('/').next().unwrap_or_default();
         let request = SearchRequest { query: word.to_string(), language: None, limit: 1 };
         let result = search(&self.sheets, &request).into_iter().next();
         Ok(result.map(|r| Hover {
