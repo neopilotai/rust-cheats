@@ -1,0 +1,12 @@
+id = "bash/find-files"
+title = "Find files with Bash tools"
+language = "bash"
+category = "filesystem"
+description = "Use find to locate files by name or extension."
+tags = ["find", "files", "shell", "filesystem"]
+
+[[examples]]
+title = "Find TOML files"
+language = "bash"
+code = "find . -type f -name '*.toml'"
+description = "Quote wildcard patterns so find receives them."

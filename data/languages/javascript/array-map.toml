@@ -1,0 +1,12 @@
+id = "javascript/array-map"
+title = "JavaScript array map"
+language = "javascript"
+category = "arrays"
+description = "Create a transformed array with Array.prototype.map."
+tags = ["array", "map", "transform"]
+
+[[examples]]
+title = "Double values"
+language = "javascript"
+code = "const doubled = values.map((value) => value * 2);"
+description = "map returns a new array."

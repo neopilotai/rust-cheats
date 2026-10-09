@@ -1,0 +1,12 @@
+id = "typescript/async"
+title = "TypeScript async and await"
+language = "typescript"
+category = "async"
+description = "Write asynchronous TypeScript functions and await promises."
+tags = ["async", "await", "promise", "typescript"]
+
+[[examples]]
+title = "Async function"
+language = "typescript"
+code = "async function loadUser(id: string): Promise<User> { return await fetchUser(id); }"
+description = "Declare the promise result type explicitly."

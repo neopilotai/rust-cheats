@@ -1,0 +1,22 @@
+[package]
+name = "rust-cheats"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "rust-cheats"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+clap_complete.workspace = true
+cheats-core = { path = "../../crates/cheats-core" }
+cheats-data = { path = "../../crates/cheats-data" }
+cheats-search = { path = "../../crates/cheats-search" }
+cheats-complete = { path = "../../crates/cheats-complete" }
+cheats-language = { path = "../../crates/cheats-language" }
+cheats-intent = { path = "../../crates/cheats-intent" }
+cheats-config = { path = "../../crates/cheats-config" }
+cheats-lsp = { path = "../../crates/cheats-lsp" }

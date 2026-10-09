@@ -1,0 +1,9 @@
+[package]
+name = "cheats-search"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+cheats-core = { path = "../cheats-core" }
+fuzzy-matcher.workspace = true

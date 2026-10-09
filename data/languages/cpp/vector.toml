@@ -1,0 +1,12 @@
+id = "cpp/vector"
+title = "C++ std::vector"
+language = "cpp"
+category = "collections"
+description = "Use std::vector as a resizable sequence container."
+tags = ["vector", "stl", "container", "cpp"]
+
+[[examples]]
+title = "Create and append"
+language = "cpp"
+code = "std::vector<int> values{1, 2, 3};\nvalues.push_back(4);"
+description = "Include <vector> and prefer standard containers for owned collections."

@@ -1,0 +1,12 @@
+id = "rust/error-handling"
+title = "Rust error handling"
+language = "rust"
+category = "basics"
+description = "Use Result, the question-mark operator, and anyhow-style propagation."
+tags = ["error", "result", "anyhow", "question mark", "try"]
+
+[[examples]]
+title = "Propagate errors"
+language = "rust"
+code = "fn read() -> Result<String, std::io::Error> { Ok(std::fs::read_to_string(\"file.txt\")?) }"
+description = "The question-mark operator returns errors to the caller."

@@ -1,0 +1,12 @@
+id = "rust/iterators"
+title = "Rust iterators"
+language = "rust"
+category = "collections"
+description = "Transform, filter, and collect values with iterators."
+tags = ["iterator", "map", "filter", "collect", "vec"]
+
+[[examples]]
+title = "Map and collect"
+language = "rust"
+code = "let doubled: Vec<_> = values.iter().map(|x| x * 2).collect();"
+description = "Transform each item and collect the results."

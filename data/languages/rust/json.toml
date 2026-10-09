@@ -1,0 +1,12 @@
+id = "rust/json"
+title = "Read JSON in Rust"
+language = "rust"
+category = "serialization"
+description = "Deserialize JSON into typed Rust structures using serde_json."
+tags = ["json", "serde", "file", "deserialize"]
+
+[[examples]]
+title = "Parse JSON"
+language = "rust"
+code = "let value: serde_json::Value = serde_json::from_str(input)?;"
+description = "Use serde_json::Value for flexible JSON or deserialize into a struct."

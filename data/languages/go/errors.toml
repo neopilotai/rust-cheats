@@ -1,0 +1,12 @@
+id = "go/errors"
+title = "Go error handling"
+language = "go"
+category = "basics"
+description = "Check returned errors explicitly and wrap errors with context."
+tags = ["error", "errors", "wrap"]
+
+[[examples]]
+title = "Check an error"
+language = "go"
+code = "value, err := load()\nif err != nil { return fmt.Errorf(\"load: %w\", err) }"
+description = "Wrap errors with %w to preserve error chains."

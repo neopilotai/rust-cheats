@@ -1,0 +1,12 @@
+id = "c/pointers"
+title = "C pointers"
+language = "c"
+category = "memory"
+description = "Declare a pointer and access the value it points to."
+tags = ["pointer", "memory", "dereference"]
+
+[[examples]]
+title = "Pointer basics"
+language = "c"
+code = "int value = 42;\nint *ptr = &value;\nprintf(\"%d\\n\", *ptr);"
+description = "The address-of operator obtains an address; unary * dereferences it."

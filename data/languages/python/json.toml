@@ -1,0 +1,12 @@
+id = "python/json"
+title = "Read JSON in Python"
+language = "python"
+category = "serialization"
+description = "Load JSON data using Python's standard json module."
+tags = ["json", "file", "deserialize", "dict"]
+
+[[examples]]
+title = "Load JSON file"
+language = "python"
+code = "import json\nwith open('data.json', encoding='utf-8') as f:\n    data = json.load(f)"
+description = "Use a context manager to close the file automatically."
