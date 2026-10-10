@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 ## Vim / Neovim
 
-`integrations/nvim/rust-cheats.lua` provides a starter user command that calls the CLI. `integrations/vim/rust-cheats.vim` provides a basic `:RustCheats` command. These are deliberately lightweight and do not require a separate plugin framework.
+`integrations/nvim/rust-cheats.lua` provides a user command and completion helper that calls the CLI with argument-separated process APIs. `integrations/vim/rust-cheats.vim` provides a basic `:RustCheats` command. These are deliberately lightweight and do not require a separate plugin framework. The CLI also exposes `complete`, `topics`, and shell completion generation for Bash, Zsh, Fish, and PowerShell.
 
 ## VS Code
 

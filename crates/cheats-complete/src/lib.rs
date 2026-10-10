@@ -1,37 +1,30 @@
 use cheats_core::{CheatSheet, Suggestion};
+use fuzzy_matcher::{skim::SkimMatcherV2, FuzzyMatcher};
 
+/// Return deterministic prefix suggestions, with fuzzy fallback for useful typo recovery.
 pub fn complete(sheets: &[CheatSheet], prefix: &str, language: Option<&str>, limit: usize) -> Vec<Suggestion> {
-    if limit == 0 {
-        return Vec::new();
-    }
-
-    let prefix = prefix.trim().to_lowercase();
+    if limit == 0 { return Vec::new(); }
+    let query = prefix.trim().to_lowercase();
+    let matcher = SkimMatcherV2::default();
     let mut out = Vec::new();
     for sheet in sheets {
-        if language.is_some_and(|l| !sheet.language.eq_ignore_ascii_case(l)) {
-            continue;
-        }
-        let candidates = [
-            (sheet.id.as_str(), Some(sheet.description.as_str()), 90.0),
-            (sheet.title.as_str(), Some(sheet.language.as_str()), 80.0),
-        ];
-        for (label, detail, base_score) in candidates {
-            let label_lower = label.to_lowercase();
-            if prefix.is_empty() || label_lower.starts_with(&prefix) {
-                let score = base_score + if label_lower == prefix { 100.0 } else {
-                    10.0 / (label.len().max(1) as f64)
-                };
-                out.push(Suggestion {
-                    label: label.to_string(),
-                    insert_text: label.to_string(),
-                    detail: detail.filter(|s| !s.is_empty()).map(str::to_string),
-                    score,
-                });
-            }
+        if language.is_some_and(|l| !sheet.language.eq_ignore_ascii_case(l)) { continue; }
+        let mut candidates = vec![(sheet.id.as_str(), sheet.description.as_str(), 100.0),
+            (sheet.title.as_str(), sheet.language.as_str(), 85.0),
+            (sheet.language.as_str(), "language", 75.0),
+            (sheet.category.as_str(), "topic", 70.0)];
+        candidates.extend(sheet.tags.iter().map(|tag| (tag.as_str(), "tag", 65.0)));
+        for (label, detail, base) in candidates {
+            if label.is_empty() { continue; }
+            let lower = label.to_lowercase();
+            let score = if query.is_empty() { Some(base) }
+                else if lower.starts_with(&query) { Some(base + 30.0 + (query.len() as f64 / label.len() as f64) * 10.0) }
+                else { matcher.fuzzy_match(&lower, &query).map(|score| base + score as f64 * 0.1) };
+            if let Some(score) = score { out.push(Suggestion { label: label.to_string(), insert_text: label.to_string(), detail: Some(detail.to_string()), score }); }
         }
     }
     out.sort_by(|a, b| b.score.total_cmp(&a.score).then_with(|| a.label.cmp(&b.label)));
-    out.dedup_by(|a, b| a.label == b.label);
+    out.dedup_by(|a, b| a.label.eq_ignore_ascii_case(&b.label));
     out.truncate(limit);
     out
 }

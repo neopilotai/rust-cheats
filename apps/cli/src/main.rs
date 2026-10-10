@@ -27,6 +27,7 @@ enum Commands {
         limit: usize,
     },
     Languages,
+    Topics,
     Show { id: String },
     Complete { prefix: String, #[arg(long)] language: Option<String> },
     Ask { query: String },
@@ -87,6 +88,11 @@ fn main() -> Result<()> {
                     for lang in cheats_language::builtins() {
                         println!("{:<12} {} ({})", lang.id, lang.display_name, lang.extensions.join(", "));
                     }
+                }
+                Commands::Topics => {
+                    let mut topics = std::collections::BTreeSet::new();
+                    for sheet in &sheets { topics.insert(sheet.category.as_str()); topics.extend(sheet.tags.iter().map(String::as_str)); }
+                    for topic in topics { println!("{topic}"); }
                 }
                 Commands::Show { id } => {
                     let sheet = sheets.iter().find(|s| s.id == id)

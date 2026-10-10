@@ -6,3 +6,4 @@ license.workspace = true
 
 [dependencies]
 cheats-core = { path = "../cheats-core" }
+fuzzy-matcher.workspace = true

@@ -12,6 +12,7 @@ path = "src/main.rs"
 anyhow.workspace = true
 clap.workspace = true
 clap_complete.workspace = true
+tokio.workspace = true
 cheats-core = { path = "../../crates/cheats-core" }
 cheats-data = { path = "../../crates/cheats-data" }
 cheats-search = { path = "../../crates/cheats-search" }
