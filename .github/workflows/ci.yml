@@ -39,4 +39,3 @@ jobs:
           cache-dependency-path: integrations/vscode/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm run compile
-        continue-on-error: true

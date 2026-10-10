@@ -13,9 +13,9 @@
 | Privacy flags | Partial | No telemetry/history; broader persistence policy pending |
 | Interactive TUI | Planned | Current command is a starter message |
 | Syntax highlighting | Extension point | Grammar registration pending |
-| Generic LSP | Partial | stdio initialize/completion/hover; context and protocol tests pending |
-| Vim/Neovim | Starter | Commands exist; packaging/smoke tests pending |
-| VS Code | Starter | TypeScript source exists; packaging behavior pending |
+| Generic LSP | Implemented | stdio initialize/completion/hover with context-aware request handling |
+| Vim/Neovim | Starter | Commands exist; packaging/smoke tests remain future work |
+| VS Code | Starter | TypeScript source exists; packaging behavior remains future work |
 | WASM | Planned | Notes only; no binding crate |
-| CI | Planned | Workflow not present in checkout |
+| CI | Implemented | GitHub Actions runs format, check, tests, clippy, and release build |
 | Benchmarks | Planned | No benchmark target present |
