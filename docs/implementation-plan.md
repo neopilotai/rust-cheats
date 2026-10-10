@@ -14,7 +14,7 @@
 4. Replace the TUI starter with an interactive ratatui workflow.
 5. Add language-aware highlighting and context-aware LSP tests.
 6. Add WASM bindings and package editor integrations.
-7. Add CI, benchmarks, security/license checks, and release documentation.
+7. Add CI, benchmarks, security/license checks, and release documentation. CI is now in place; the remaining work is benchmark and release hardening.
 
 ## Verification policy
 
